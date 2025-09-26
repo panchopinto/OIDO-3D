@@ -9,6 +9,49 @@
 </head>
 <body>
   
+<!-- v14: Figure icons (badge-like) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="bg-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="bg-green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6ee7b7"/><stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="bg-orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fcd34d"/><stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="bg-purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c4b5fd"/><stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+</svg>
+<svg width="0" height="0" style="position:absolute">
+  <!-- Home badge (house) -->
+  <symbol id="fig-home" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-purple)"/>
+    <path d="M20 34v14h10V38h4v10h10V34h4L32 20 16 34h4z" fill="#fff" opacity="0.95"/>
+  </symbol>
+  <!-- 3D badge (cube) -->
+  <symbol id="fig-3d" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-blue)"/>
+    <path d="M32 14l16 9v18l-16 9-16-9V23l16-9zm0 6l-10 5v10l10 5 10-5V25l-10-5z" fill="#fff" opacity="0.95"/>
+  </symbol>
+  <!-- Info badge (book/info) -->
+  <symbol id="fig-info" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-green)"/>
+    <path d="M30 18h4v6h-4zM30 28h4v18h-4z" fill="#0b3" opacity="0.0"/>
+    <path d="M32 16a16 16 0 1 0 .001 32.001A16 16 0 0 0 32 16zm-2 8h4v6h-4zm0 10h4v12h-4z" fill="#fff" opacity="0.95"/>
+  </symbol>
+  <!-- AR badge (phone/AR) -->
+  <symbol id="fig-ar" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-orange)"/>
+    <rect x="20" y="18" width="24" height="28" rx="4" ry="4" fill="#fff" opacity="0.95"/>
+    <path d="M26 24h12v4H26zM24 32h16v2H24zM24 36h16v2H24z" fill="#f59e0b"/>
+  </symbol>
+</svg>
+
+  
 <svg width="0" height="0" style="position:absolute">
   <defs>
     <linearGradient id="g-blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>
@@ -26,19 +69,32 @@
 
   <div class="container">
     <header class="header">
-      <div class="brand"><div class="logo"><svg viewBox="0 0 24 24"><use href="#ico-info"/></svg></div><h1>3D con información — Oído</h1></div>
+      <div class="brand"><div class="logo"><svg viewBox="0 0 24 24"><use href="#fig-info"/></svg></div><h1>3D con información — Oído</h1></div>
       
       <nav class="actions">
-        <a class="btn grad-purple" href="index.html"><svg class="ico"><use href="#ico-home"/></svg> Inicio</a>
-        <a class="btn grad-blue" href="scene-simple.html"><svg class="ico"><use href="#ico-3d"/></svg> Vista 3D simple</a>
-        <a class="btn grad-green" href="scene-info.html"><svg class="ico"><use href="#ico-info"/></svg> 3D con información</a>
-        <a class="btn grad-orange" href="ar.html"><svg class="ico"><use href="#ico-ar"/></svg> Realidad Aumentada</a>
+        <a class="btn grad-purple" href="index.html"><svg class="ico-badge"><use href="#fig-home"/></svg> Inicio</a>
+        <a class="btn grad-blue" href="scene-simple.html"><svg class="ico-badge"><use href="#fig-3d"/></svg> Vista 3D simple</a>
+        <a class="btn grad-green" href="scene-info.html"><svg class="ico-badge"><use href="#fig-info"/></svg> 3D con información</a>
+        <a class="btn grad-orange" href="ar.html"><svg class="ico-badge"><use href="#fig-ar"/></svg> Realidad Aumentada</a>
       </nav>
     
     </header>
 
     <section class="card">
       <div class="toolbar">
+            <button class="toolbtn" id="btn-prev" title="Anterior">
+              <svg viewBox="0 0 24 24"><path fill="#7dd3fc" d="M15 6l-6 6 6 6V6z"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-play" title="Iniciar tour">
+              <svg viewBox="0 0 24 24"><path fill="#34d399" d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-pause" title="Pausar tour">
+              <svg viewBox="0 0 24 24"><path fill="#f59e0b" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-next" title="Siguiente">
+              <svg viewBox="0 0 24 24"><path fill="#7dd3fc" d="M9 6l6 6-6 6V6z"/></svg>
+            </button>
+          </div>
             <button class="toolbtn" id="btn-info" title="Ver info">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#7dd3fc" stroke-width="2"/><path fill="#7dd3fc" d="M11 10h2v7h-2zM11 6h2v2h-2z"/></svg>
             </button>
@@ -175,6 +231,91 @@
     mv.querySelectorAll('.hotspot').forEach(h=>{
       h.style.display = hotspotsVisible ? 'inline-block' : 'none';
     });
+  });
+})();
+</script>
+
+
+<script>
+// TOUR_AUTOMATICO v13
+(function(){
+  const mv = document.getElementById('mv');
+  if(!mv) return;
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const btnPlay = document.getElementById('btn-play');
+  const btnPause= document.getElementById('btn-pause');
+  const titleEl = document.getElementById('info-title');
+  const descEl  = document.getElementById('info-desc');
+
+  const INFO = {
+    "Pabellón auricular": "Parte externa que capta y canaliza el sonido hacia el conducto auditivo.",
+    "Tímpano": "Membrana que vibra con las ondas sonoras; separa el oído externo del medio.",
+    "Cadena osicular": "Martillo, yunque y estribo; amplifican la vibración del tímpano.",
+    "Cóclea": "Convierte vibraciones en impulsos nerviosos (audición).",
+    "Canales semicirculares": "Detectan rotación de la cabeza; esenciales para el equilibrio.",
+    "Trompa de Eustaquio": "Equilibra la presión entre oído medio y ambiente."
+  };
+
+  function parsePos(str){
+    const p = str.trim().split(/\s+/).map(Number);
+    return {x:p[0]||0, y:p[1]||0, z:p[2]||0};
+  }
+  function posToTarget(p){ return `${p.x}m ${p.y}m ${p.z}m`; }
+
+  // Collect steps from hotspots in DOM order
+  const hotspots = Array.from(mv.querySelectorAll('.hotspot'));
+  const steps = hotspots.map(el=>{
+    const name = el.textContent.trim();
+    const pos  = parsePos(el.dataset.position||"0 0 0");
+    return {name, pos, el};
+  });
+
+  let idx = 0;
+  let timer = null;
+  const DUR = 3200; // ms between steps
+
+  function focusStep(i){
+    if(steps.length===0) return;
+    idx = (i+steps.length)%steps.length;
+    const st = steps[idx];
+    // Update info panel
+    titleEl.textContent = st.name;
+    descEl.textContent  = INFO[st.name] || 'Parte del oído';
+    // Set camera target to hotspot position, slightly adjust radius
+    const o = mv.getCameraOrbit();
+    const newRadius = Math.max(0.08, o.radius*0.85);
+    mv.cameraTarget = posToTarget(st.pos);
+    mv.cameraOrbit = `${o.theta} ${o.phi} ${newRadius}`;
+    // small highlight
+    st.el.style.transform = 'scale(1.08)';
+    setTimeout(()=> st.el.style.transform = '', 250);
+  }
+
+  function play(){
+    if(timer) return;
+    mv.autoRotate = false;
+    focusStep(idx);
+    timer = setInterval(()=>{ focusStep(idx+1); }, DUR);
+  }
+  function pause(){
+    if(timer){ clearInterval(timer); timer = null; }
+  }
+  function next(){ pause(); focusStep(idx+1); }
+  function prev(){ pause(); focusStep(idx-1); }
+
+  btnPlay && btnPlay.addEventListener('click', play);
+  btnPause&& btnPause.addEventListener('click', pause);
+  btnNext && btnNext.addEventListener('click', next);
+  btnPrev && btnPrev.addEventListener('click', prev);
+
+  // Clicking a hotspot interrupts tour and focuses that part
+  mv.addEventListener('click', (ev)=>{
+    if(ev.target.classList && ev.target.classList.contains('hotspot')){
+      pause();
+      const i = steps.findIndex(s=> s.el===ev.target);
+      if(i>=0){ focusStep(i); }
+    }
   });
 })();
 </script>

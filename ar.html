@@ -82,6 +82,28 @@
 
     <section class="card">
       <mv-wrapper>
+    <div class="ar-toolbar" id="arToolbar">
+      <button class="ar-btn" id="arRotateL" title="Girar a la izquierda">
+        <svg viewBox="0 0 24 24"><path fill="#93c5fd" d="M12 6v3l4-4-4-4v3A7 7 0 105 12H3a9 9 0 119 9v-2a7 7 0 100-13z"/></svg>
+      </button>
+      <button class="ar-btn" id="arRotateR" title="Girar a la derecha">
+        <svg viewBox="0 0 24 24"><path fill="#93c5fd" d="M12 6v3l4-4-4-4v3a9 9 0 11-9 9h2a7 7 0 107-7z"/></svg>
+      </button>
+      <button class="ar-btn" id="arZoomIn" title="Aumentar tamaño">
+        <svg viewBox="0 0 24 24"><path fill="#86efac" d="M11 6h2v5h5v2h-5v5h-2v-5H6v-2h5z"/></svg>
+      </button>
+      <button class="ar-btn" id="arZoomOut" title="Disminuir tamaño">
+        <svg viewBox="0 0 24 24"><path fill="#fcd34d" d="M6 11h12v2H6z"/></svg>
+      </button>
+      <button class="ar-btn" id="arRecenter" title="Recolocar modelo">
+        <svg viewBox="0 0 24 24"><path fill="#f0abfc" d="M12 5V3l-4 3 4 3V7a5 5 0 015 5h2a7 7 0 00-7-7zM5 12a7 7 0 007 7v2A9 9 0 013 12h2z"/></svg>
+      </button>
+      <button class="ar-btn" id="arHelpBtn" title="Ayuda / gestos">
+        <svg viewBox="0 0 24 24"><path fill="#e879f9" d="M12 2a10 10 0 100 20 10 10 0 000-20zM11 10h2v7h-2zm0-4h2v2h-2z"/></svg>
+      </button>
+    </div>
+    <div class="ar-help" id="arHelp">Gestos: rotar con 1 dedo • escalar con 2 dedos • mover con 2 dedos (según modo). En Android (Scene Viewer) y iOS (Quick Look) los gestos son nativos. Los botones funcionan en WebXR y vista previa.</div>
+    
         <model-viewer src="assets/models/oido.glb" ios-src="assets/models/oido.usdz" ar ar-modes="webxr scene-viewer quick-look" camera-controls touch-action="pan-y" ar-scale="fixed" shadow-intensity="0.5"></model-viewer>
       </mv-wrapper>
       <p class="legend">Android: Scene Viewer/WebXR. iOS: requiere USDZ para Quick Look (puedo convertir tu GLB a USDZ).</p>
@@ -102,6 +124,71 @@
     if (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(k)) return block(e);
     if (e.ctrlKey && ['u','s','p'].includes(k)) return block(e);
   }, {capture:true});
+})();
+</script>
+
+
+<script>
+(function(){
+  const mv = document.querySelector('model-viewer');
+  const toolbar = document.getElementById('arToolbar');
+  const help = document.getElementById('arHelp');
+  let scale = 1.0;
+
+  function isWebXR(){
+    // model-viewer sets arStatus="session-started" in WebXR; Scene Viewer / Quick Look do not expose same
+    return mv.ar && (mv.getAttribute('ar-modes') || '').includes('webxr');
+  }
+  function applyScale(val){
+    scale = Math.min(3, Math.max(0.2, val));
+    if (mv.model && mv.model.modelScene) {
+      const s = scale;
+      mv.model.modelScene.scale.set(s, s, s);
+    } else if (mv.model) {
+      // fallback
+      const s = scale;
+      mv.model.scale.set(s, s, s);
+    }
+  }
+  function rotateBy(deltaDeg){
+    if (mv.model) {
+      const y = (mv.model.rotation.y || 0) + (deltaDeg * Math.PI/180);
+      mv.model.rotation.y = y;
+    }
+  }
+  document.getElementById('arRotateL').addEventListener('click', ()=> rotateBy(-10));
+  document.getElementById('arRotateR').addEventListener('click', ()=> rotateBy(10));
+  document.getElementById('arZoomIn').addEventListener('click', ()=> applyScale(scale*1.12));
+  document.getElementById('arZoomOut').addEventListener('click', ()=> applyScale(scale/1.12));
+  document.getElementById('arRecenter').addEventListener('click', ()=> {
+    // Simple recenter: exit & re-enter AR if possible, else reset turntable
+    if (mv.ar && mv.canActivateAR) {
+      try{ mv.exitAR && mv.exitAR(); }catch(e){}
+      setTimeout(()=> { try{ mv.activateAR && mv.activateAR(); }catch(e){} }, 200);
+    } else {
+      mv.resetTurntableRotation && mv.resetTurntableRotation();
+      mv.cameraOrbit = 'auto auto auto';
+    }
+  });
+  document.getElementById('arHelpBtn').addEventListener('click', ()=> help.classList.toggle('show'));
+
+  // Toggle toolbar visibility depending on AR mode
+  mv.addEventListener('ar-status', (ev)=>{
+    const st = ev.detail.status || ev.target.getAttribute('ar-status');
+    // Show toolbar in WebXR and preview; hide when delegating to native apps
+    if (st === 'session-started') {
+      toolbar.style.display = 'flex';
+    } else if (st === 'not-presenting' || st === 'failed') {
+      toolbar.style.display = 'flex';
+    } else {
+      // presenting in native mode
+      toolbar.style.display = 'none';
+      help.classList.remove('show');
+    }
+  });
+
+  // Initialize scale after model loads
+  mv.addEventListener('load', ()=> applyScale(1.0));
 })();
 </script>
 

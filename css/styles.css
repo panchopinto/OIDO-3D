@@ -28,3 +28,41 @@ a{color:inherit;text-decoration:none}
 mv-wrapper{display:block;height:70vh;min-height:420px;border-radius:14px;overflow:hidden;border:1px solid #203}
 model-viewer{width:100%;height:100%;background:radial-gradient(600px 400px at 20% 0%,#0f172a 0%,#0b1020 60%,#070b16 100%)}
 .hotspot{background:rgba(15,23,42,.92);color:#fff;border:1px solid #334;padding:6px 10px;border-radius:10px;font-size:.85rem;white-space:nowrap}
+
+
+/* v8: colorful cards with icons + toolbar controls */
+.cards3 .card.link{
+  position:relative; overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+}
+.cards3 .card.link:before{
+  content:""; position:absolute; inset:-2px;
+  background: conic-gradient(from 0deg, #60a5fa, #34d399, #fbbf24, #c084fc, #60a5fa);
+  filter: blur(14px); opacity:.18; z-index:0;
+}
+.cards3 .card.link h3{margin:.2rem 0 0.2rem 0; position:relative; z-index:1}
+.cards3 .card.link p{position:relative; z-index:1}
+.card .chipline{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; position:relative; z-index:1}
+.chip{padding:6px 10px; border-radius:999px; font-size:.8rem; border:1px solid rgba(255,255,255,.18); opacity:.9}
+.chip.blue{background:rgba(96,165,250,.12)}
+.chip.green{background:rgba(52,211,153,.12)}
+.chip.orange{background:rgba(251,191,36,.12)}
+.chip.purple{background:rgba(192,132,252,.12)}
+
+.toolbar{position:absolute; right:12px; top:12px; display:flex; gap:8px; z-index:5}
+.toolbtn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:38px; height:38px; border-radius:12px; background:rgba(12,18,32,.9);
+  border:1px solid #2a3550; box-shadow:0 6px 14px rgba(0,0,0,.35);
+  transition: transform .15s;
+}
+.toolbtn:hover{ transform: translateY(-2px); }
+.toolbtn svg{ width:20px; height:20px; }
+.panel{
+  position:relative; z-index:4; margin-top:12px;
+  padding:12px; border-radius:14px; border:1px solid #213; background:rgba(10,16,28,.8);
+}
+.panel h3{margin:0 0 6px 0}
+.badge-inline{display:inline-block; padding:3px 8px; border-radius:8px; font-size:.75rem; border:1px solid rgba(255,255,255,.15); margin-left:6px}
+

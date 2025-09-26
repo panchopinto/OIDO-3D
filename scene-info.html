@@ -35,7 +35,27 @@
     </header>
 
     <section class="card">
-      <mv-wrapper>
+      <div class="toolbar">
+            <button class="toolbtn" id="btn-info" title="Ver info">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#7dd3fc" stroke-width="2"/><path fill="#7dd3fc" d="M11 10h2v7h-2zM11 6h2v2h-2z"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-auto" title="Auto-rotar">
+              <svg viewBox="0 0 24 24"><path fill="#34d399" d="M12 2v3l4-4-4-4v3A10 10 0 1022 12h-2a8 8 0 11-8-8z"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-zoom-in" title="Acercar (+)">
+              <svg viewBox="0 0 24 24"><path fill="#60a5fa" d="M10 10V6h2v4h4v2h-4v4h-2v-4H6v-2z"/><path fill="#60a5fa" d="M21 21l-4.35-4.35"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-zoom-out" title="Alejar (-)">
+              <svg viewBox="0 0 24 24"><path fill="#fbbf24" d="M6 11h8v2H6z"/><path fill="#fbbf24" d="M21 21l-4.35-4.35"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-reset" title="Reiniciar vista">
+              <svg viewBox="0 0 24 24"><path fill="#c084fc" d="M12 5V2L7 6l5 4V7c3 0 5 2 5 5a5 5 0 11-9.9 1H5a7 7 0 1014 0c0-3.87-3.13-7-7-7z"/></svg>
+            </button>
+            <button class="toolbtn" id="btn-hotspots" title="Mostrar/Ocultar etiquetas">
+              <svg viewBox="0 0 24 24"><path fill="#e879f9" d="M12 5c4 0 7 3 7 7s-3 7-7 7-7-3-7-7 3-7 7-7zm0 2a5 5 0 100 10 5 5 0 000-10z"/><circle cx="12" cy="12" r="2" fill="#e879f9"/></svg>
+            </button>
+          </div>
+          <mv-wrapper>
         <model-viewer id="mv" src="assets/models/oido.glb" camera-controls touch-action="pan-y" exposure="1.1" shadow-intensity="0.5">
           <button class="hotspot" slot="hotspot-1" data-position="-0.05 0.06 -0.08" data-normal="0 1 0" data-visibility-attribute="visible">Pabellón auricular</button>
           <button class="hotspot" slot="hotspot-2" data-position="0 0.02 -0.05" data-normal="0 1 0" data-visibility-attribute="visible">Tímpano</button>
@@ -45,6 +65,13 @@
           <button class="hotspot" slot="hotspot-6" data-position="-0.02 -0.03 -0.04" data-normal="0 1 0" data-visibility-attribute="visible">Trompa de Eustaquio</button>
         </model-viewer>
       </mv-wrapper>
+      <div class="panel" id="info-panel">
+        <h3 id="info-title">Partes del oído</h3>
+        <p id="info-desc">Toca un hotspot o usa el botón <em>info</em> para ver una breve descripción.</p>
+        <div class="chipline">
+          <span class="chip green">Externo</span><span class="chip blue">Medio</span><span class="chip orange">Interno</span>
+        </div>
+      </div>
       <p class="legend">Toca los hotspots para identificar cada parte del oído.</p>
     </section>
 
@@ -61,6 +88,89 @@
     if (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(k)) return block(e);
     if (e.ctrlKey && ['u','s','p'].includes(k)) return block(e);
   }, {capture:true});
+})();
+</script>
+
+
+<script>
+(function(){
+  const mv = document.getElementById('mv');
+  const infoPanel = document.getElementById('info-panel');
+  const titleEl = document.getElementById('info-title');
+  const descEl  = document.getElementById('info-desc');
+
+  // Dictionary with brief info
+  const INFO = {
+    "Pabellón auricular": "Parte externa que capta y canaliza el sonido hacia el conducto auditivo.",
+    "Tímpano": "Membrana que vibra con las ondas sonoras; separa el oído externo del medio.",
+    "Cadena osicular": "Martillo, yunque y estribo; amplifican la vibración del tímpano.",
+    "Cóclea": "Convierte vibraciones en impulsos nerviosos (audición).",
+    "Canales semicirculares": "Detectan la rotación de la cabeza; fundamentales para el equilibrio.",
+    "Trompa de Eustaquio": "Equilibra la presión entre oído medio y ambiente."
+  };
+
+  // Hotspot click binding
+  mv.addEventListener('click', (ev)=>{
+    const target = ev.target;
+    if (target.classList && target.classList.contains('hotspot')){
+      const name = target.textContent.trim();
+      titleEl.textContent = name;
+      descEl.textContent  = INFO[name] || "Parte del oído.";
+    }
+  });
+
+  // Helpers
+  function getOrbit(){
+    const o = mv.getCameraOrbit(); // returns {theta, phi, radius}
+    return {theta: o.theta, phi: o.phi, radius: o.radius};
+  }
+  function setOrbit(theta, phi, radius){
+    mv.cameraOrbit = `${'${'}theta${'}'} ${'${'}phi${'}'} ${'${'}radius${'}'}`;
+  }
+
+  // Buttons
+  const btnInfo = document.getElementById('btn-info');
+  const btnAuto = document.getElementById('btn-auto');
+  const btnIn   = document.getElementById('btn-zoom-in');
+  const btnOut  = document.getElementById('btn-zoom-out');
+  const btnRes  = document.getElementById('btn-reset');
+  const btnHot  = document.getElementById('btn-hotspots');
+
+  btnInfo.addEventListener('click', ()=>{
+    infoPanel.scrollIntoView({behavior:'smooth', block:'center'});
+    infoPanel.classList.add('pulse');
+    setTimeout(()=> infoPanel.classList.remove('pulse'), 600);
+  });
+
+  btnAuto.addEventListener('click', ()=>{
+    mv.autoRotate = !mv.autoRotate;
+  });
+
+  btnIn.addEventListener('click', ()=>{
+    const o = getOrbit();
+    // reduce radius 10%
+    const r = Math.max(0.05, o.radius * 0.9);
+    setOrbit(o.theta, o.phi, r);
+  });
+
+  btnOut.addEventListener('click', ()=>{
+    const o = getOrbit();
+    const r = Math.min(10, o.radius * 1.1);
+    setOrbit(o.theta, o.phi, r);
+  });
+
+  btnRes.addEventListener('click', ()=>{
+    mv.resetTurntableRotation();
+    mv.cameraOrbit = 'auto auto auto';
+  });
+
+  let hotspotsVisible = true;
+  btnHot.addEventListener('click', ()=>{
+    hotspotsVisible = !hotspotsVisible;
+    mv.querySelectorAll('.hotspot').forEach(h=>{
+      h.style.display = hotspotsVisible ? 'inline-block' : 'none';
+    });
+  });
 })();
 </script>
 

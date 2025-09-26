@@ -91,3 +91,17 @@ mv-wrapper{position:relative} /* anchor overlay children */
 @media (max-width: 900px){
   .actions{gap:12px}
 }
+
+/* v27: colorful badge icons for cards/buttons */
+.card h3{display:flex;align-items:center;gap:10px}
+.card-ico{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9px;box-shadow:0 8px 20px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14)}
+.card-ico svg{width:18px;height:18px}
+.badge{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:8px;margin-right:6px;border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.badge svg{width:14px;height:14px}
+.grad-a{background:linear-gradient(135deg,#60a5fa,#3b82f6)}
+.grad-b{background:linear-gradient(135deg,#34d399,#10b981)}
+.grad-c{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.grad-d{background:linear-gradient(135deg,#c084fc,#8b5cf6)}
+/* nav buttons already have icons; ensure they don't get squashed */
+.btn .ico{filter: drop-shadow(0 1px 0 rgba(0,0,0,.35));}
+.toolbtn svg{filter: drop-shadow(0 1px 0 rgba(0,0,0,.35));}

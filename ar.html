@@ -76,6 +76,10 @@
         <a class="btn grad-blue" href="scene-simple.html"><svg class="ico-badge"><use href="#fig-3d"/></svg> Vista 3D simple</a>
         <a class="btn grad-green" href="scene-info.html"><svg class="ico-badge"><use href="#fig-info"/></svg> 3D con información</a>
         <a class="btn grad-orange" href="ar.html"><svg class="ico-badge"><use href="#fig-ar"/></svg> Realidad Aumentada</a>
+      
+        <a class="btn grad-green" href="extras/glosario.html"><svg class="ico-badge"><use href="#fig-info"/></svg> Glosario</a>
+        <a class="btn grad-blue" href="extras/quiz.html"><svg class="ico-badge"><use href="#fig-3d"/></svg> Quiz</a>
+    
       </nav>
     
     </header>
@@ -240,6 +244,49 @@
       toolbar.style.display = 'none'; // native app
     }
   });
+})();
+</script>
+
+
+<script>
+// v20: auto 'Colocar' on session start (WebXR) and switch to 'floor' after first tap.
+// Approximate scale based on camera distance before AR (fallback if unsupported).
+(function(){
+  const mv = document.querySelector('model-viewer');
+  const toolbar = document.getElementById('arToolbar');
+  let firstTapDone = false;
+
+  function setPlacement(mode){ mv && mv.setAttribute('ar-placement', mode); }
+
+  function adjustScaleInitial(){
+    try{
+      const o = mv.getCameraOrbit(); // before entering AR
+      const r = o && o.radius ? o.radius : 1.0;
+      const targetScale = Math.min(2.0, Math.max(0.4, 0.9 / r));
+      if (mv.model && mv.model.modelScene) {
+        mv.model.modelScene.scale.set(targetScale, targetScale, targetScale);
+      }
+    }catch(e){}
+  }
+
+  mv.addEventListener('ar-status', (ev)=>{
+    const st = ev.detail.status || mv.getAttribute('ar-status');
+    if (st === 'session-started'){
+      // Start in interaction mode -> user taps to place
+      firstTapDone = false;
+      setPlacement('interaction');
+      toolbar && (toolbar.style.display = 'flex');
+      adjustScaleInitial();
+    }
+  });
+
+  mv.addEventListener('click', ()=>{
+    // First tap after session start -> lock to floor
+    if (!firstTapDone && mv.getAttribute('ar-placement') === 'interaction'){
+      firstTapDone = true;
+      setTimeout(()=> setPlacement('floor'), 200);
+    }
+  }, {passive:true});
 })();
 </script>
 

@@ -73,3 +73,8 @@ ul.clean li{padding:6px 0;border-bottom:1px dashed #23304f}
 /* Make header button group look like pills row */
 .header .actions .btn { border-radius:12px; }
 
+
+
+/* v5 footer */
+.footer{margin-top:24px;padding:14px 0;border-top:1px solid #1e2741;color:#b8c6e3;text-align:center;opacity:.9}
+

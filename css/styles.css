@@ -29,3 +29,26 @@ ul.clean li{padding:6px 0;border-bottom:1px dashed #23304f}
 @media (max-width:900px){.cards3{grid-template-columns:1fr}.row{flex-direction:column}.sidebar{width:auto}}
 .tooltip{position:absolute;inset:auto auto 110% 0;background:#0e162c;border:1px solid #243150;padding:6px 10px;border-radius:10px;font-size:.8rem;white-space:nowrap;opacity:0;transform:translateY(6px);pointer-events:none;transition:all .18s}
 .btn:hover .tooltip{opacity:1;transform:translateY(0)}
+
+/* v3 enhancements */
+:root{--bg:#0b1020;--card:#121a2e;--muted:#9fb3c8;--accent:#7dd3fc}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:#0b1020;color:#e6f0ff}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#38bdf8,#8b5cf6);display:grid;place-items:center}
+.brand .logo svg{width:26px;height:26px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.55rem;padding:10px 14px;border-radius:14px;background:linear-gradient(180deg,#18233d,#0f172a);border:1px solid #243150;color:#d9e6ff;box-shadow:inset 0 1px 0 #2b3a5e,0 6px 14px #0006;font-weight:600}
+.btn .ico{width:18px;height:18px}
+.card{background:var(--card);border:1px solid #1e2741;border-radius:18px;padding:18px;box-shadow:0 12px 30px #0007}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card.link{display:flex;flex-direction:column;gap:10px;min-height:140px}
+.title{margin:0}
+.row{display:flex;gap:16px}
+.sidebar{width:320px;min-width:260px}
+ul.clean{list-style:none;padding:0;margin:0}
+ul.clean li{padding:6px 0;border-bottom:1px dashed #23304f}
+@media (max-width:900px){.cards3{grid-template-columns:1fr}.row{flex-direction:column}.sidebar{width:auto}}
+.a-helper{opacity:.8;font-size:.9rem}

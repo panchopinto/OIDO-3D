@@ -6,27 +6,52 @@
   <title>3D con información — Oído</title>
   <link rel="stylesheet" href="css/styles.css"/>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  
+<script src="https://cdn.jsdelivr.net/npm/aframe-orbit-controls@1.3.1/dist/aframe-orbit-controls.min.js"></script>
+<script>
+  // Auto-fit camera to model using THREE.Box3 bounding box
+  function fitCameraToModel(sceneEl, modelEl, controlsEl){
+    modelEl.addEventListener('model-loaded', () => {
+      const obj = modelEl.getObject3D('mesh');
+      if(!obj){ console.warn('No mesh in model'); return; }
+      obj.updateWorldMatrix(true, true);
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = new THREE.Vector3();
+      const center = new THREE.Vector3();
+      box.getSize(size);
+      box.getCenter(center);
+      // Set orbit target
+      if(controlsEl){ controlsEl.components['orbit-controls'].controls.target.copy(center); }
+      // Compute distance from FOV
+      const camera = sceneEl.camera;
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const fov = camera.fov * (Math.PI/180);
+      const dist = (maxDim/2) / Math.tan(fov/2) + 0.5*maxDim;
+      const dir = new THREE.Vector3(0.7, 0.5, 1).normalize();
+      const camPos = center.clone().add(dir.multiplyScalar(dist));
+      camera.position.copy(camPos);
+      camera.near = dist/100;
+      camera.far  = dist*10;
+      camera.updateProjectionMatrix();
+    });
+  }
+</script>
+
   <script>
     AFRAME.registerComponent('hotspot', {
       schema: { label: {type:'string'}, desc: {type:'string'}, color:{type:'string', default:'#fff'} },
       init(){
         const el = this.el, d = this.data;
         const sphere = document.createElement('a-sphere');
-        sphere.setAttribute('radius','0.01');
+        sphere.setAttribute('radius','0.012');
         sphere.setAttribute('color', d.color);
-        sphere.setAttribute('opacity','0.9');
+        sphere.setAttribute('opacity','0.95');
         el.appendChild(sphere);
-        const text = document.createElement('a-entity');
-        text.setAttribute('text', { value: d.label, align:'center', width: 1.4 });
-        text.setAttribute('position','0 0.03 0');
-        text.setAttribute('visible', false);
-        el.appendChild(text);
-        el.addEventListener('mouseenter', ()=> text.setAttribute('visible', true));
-        el.addEventListener('mouseleave', ()=> text.setAttribute('visible', false));
         el.addEventListener('click', ()=> {
-          const panel = document.querySelector('#info-panel');
-          panel.querySelector('h3').textContent = d.label;
-          panel.querySelector('p').textContent = d.desc;
+          const title = document.querySelector('#info-title');
+          const body = document.querySelector('#info-body');
+          title.textContent = d.label;
+          body.textContent = d.desc;
         });
       }
     });
@@ -60,30 +85,34 @@
         <div style="height:70vh;min-height:420px">
           <a-scene renderer="antialias:true">
             <a-assets>
-              <a-asset-item id="mdl" src="OIDO-3D-main/assets/models/oido.glb"></a-asset-item>
+              <a-asset-item id="mdl" src="assets/models/oido.glb"></a-asset-item>
             </a-assets>
-            <a-entity position="0 1.6 0">
-              <a-entity gltf-model="#mdl" position="0 1.5 -1.5" rotation="0 40 0"></a-entity>
-              <!-- Hotspots (ajusta posiciones según tu modelo) -->
-              <a-entity hotspot="label: Pabellón auricular; desc: Parte externa que capta el sonido.; color: #60a5fa" position="-0.05 1.6 -1.2"></a-entity>
-              <a-entity hotspot="label: Tímpano; desc: Membrana que vibra con las ondas sonoras.; color: #f59e0b" position="0 1.5 -1.1"></a-entity>
-              <a-entity hotspot="label: Cadena osicular; desc: Martillo, yunque y estribo amplifican la vibración.; color: #34d399" position="0.05 1.52 -1.1"></a-entity>
-              <a-entity hotspot="label: Cóclea; desc: Transforma vibraciones en impulsos nerviosos.; color: #c084fc" position="0.12 1.48 -1.2"></a-entity>
-              <a-entity hotspot="label: Canales semicirculares; desc: Órganos del equilibrio.; color: #a78bfa" position="0.16 1.54 -1.22"></a-entity>
-              <a-entity hotspot="label: Trompa de Eustaquio; desc: Regula la presión del oído medio.; color: #fbbf24" position="-0.02 1.46 -1.08"></a-entity>
+
+            <a-entity id="model" gltf-model="#mdl" position="0 1.2 -1.2"></a-entity>
+
+            <!-- Hotspots iniciales (ajusta posiciones al GLB real si varía) -->
+            <a-entity hotspot="label: Pabellón auricular; desc: Parte externa que capta el sonido.; color: #60a5fa" position="-0.05 1.3 -1.0"></a-entity>
+            <a-entity hotspot="label: Tímpano; desc: Membrana que vibra con ondas sonoras.; color: #f59e0b" position="0 1.2 -1.0"></a-entity>
+            <a-entity hotspot="label: Cadena osicular; desc: Martillo, yunque y estribo amplifican la vibración.; color: #34d399" position="0.05 1.22 -1.0"></a-entity>
+            <a-entity hotspot="label: Cóclea; desc: Transforma vibraciones en impulsos nerviosos.; color: #c084fc" position="0.12 1.16 -1.05"></a-entity>
+            <a-entity hotspot="label: Canales semicirculares; desc: Órganos del equilibrio.; color: #a78bfa" position="0.16 1.26 -1.08"></a-entity>
+            <a-entity hotspot="label: Trompa de Eustaquio; desc: Regula la presión del oído medio.; color: #fbbf24" position="-0.02 1.1 -0.98"></a-entity>
+
+            <a-entity id="rig" position="0 1.6 0">
+              <a-entity id="camera" camera look-controls="enabled:false" orbit-controls="autoRotate:false; target: 0 1.2 -1.2; minDistance:0.1; maxDistance:100; enablePan:true; enableDamping:true; dampingFactor:0.15;"></a-entity>
             </a-entity>
-            <a-entity position="0 1.6 0"><a-camera wasd-controls-enabled="false"><a-entity cursor="rayOrigin: mouse"></a-entity></a-camera></a-entity>
-            <a-entity light="type: ambient; intensity: 0.9"></a-entity>
-            <a-entity light="type: directional; intensity: 0.6" position="0 1 -1"></a-entity>
+
+            <a-entity light="type: ambient; intensity: 1.0"></a-entity>
+            <a-entity light="type: directional; intensity: 0.8" position="1 2 1"></a-entity>
             <a-sky color="#0b1020"></a-sky>
           </a-scene>
         </div>
       </section>
 
       <aside class="sidebar">
-        <section id="info-panel" class="card info">
-          <h3>Selecciona una parte del oído</h3>
-          <p>Haz clic en los puntos del modelo para ver su descripción.</p>
+        <section class="card">
+          <h3 id="info-title">Selecciona una parte del oído</h3>
+          <p id="info-body">Haz clic en los puntos para ver su descripción aquí.</p>
           <ul class="clean">
             <li>Externo: pabellón auricular, conducto auditivo.</li>
             <li>Medio: tímpano, martillo, yunque, estribo.</li>
@@ -93,5 +122,12 @@
       </aside>
     </div>
   </div>
+
+  <script>
+    const scene = document.querySelector('a-scene');
+    const model = document.querySelector('#model');
+    const cam = document.querySelector('#camera');
+    fitCameraToModel(scene, model, cam);
+  </script>
 </body>
 </html>

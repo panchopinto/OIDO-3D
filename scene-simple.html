@@ -6,6 +6,37 @@
   <title>Vista 3D simple — Oído</title>
   <link rel="stylesheet" href="css/styles.css"/>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  
+<script src="https://cdn.jsdelivr.net/npm/aframe-orbit-controls@1.3.1/dist/aframe-orbit-controls.min.js"></script>
+<script>
+  // Auto-fit camera to model using THREE.Box3 bounding box
+  function fitCameraToModel(sceneEl, modelEl, controlsEl){
+    modelEl.addEventListener('model-loaded', () => {
+      const obj = modelEl.getObject3D('mesh');
+      if(!obj){ console.warn('No mesh in model'); return; }
+      obj.updateWorldMatrix(true, true);
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = new THREE.Vector3();
+      const center = new THREE.Vector3();
+      box.getSize(size);
+      box.getCenter(center);
+      // Set orbit target
+      if(controlsEl){ controlsEl.components['orbit-controls'].controls.target.copy(center); }
+      // Compute distance from FOV
+      const camera = sceneEl.camera;
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const fov = camera.fov * (Math.PI/180);
+      const dist = (maxDim/2) / Math.tan(fov/2) + 0.5*maxDim;
+      const dir = new THREE.Vector3(0.7, 0.5, 1).normalize();
+      const camPos = center.clone().add(dir.multiplyScalar(dist));
+      camera.position.copy(camPos);
+      camera.near = dist/100;
+      camera.far  = dist*10;
+      camera.updateProjectionMatrix();
+    });
+  }
+</script>
+
 </head>
 <body>
   
@@ -33,16 +64,24 @@
       <div style="height:70vh;min-height:420px">
         <a-scene renderer="antialias:true">
           <a-assets>
-            <a-asset-item id="mdl" src="OIDO-3D-main/assets/models/oido.glb"></a-asset-item>
+            <a-asset-item id="mdl" src="assets/models/oido.glb"></a-asset-item>
           </a-assets>
-          <a-entity gltf-model="#mdl" position="0 1.5 -1.5" rotation="0 40 0"></a-entity>
-          <a-entity light="type: ambient; intensity: 0.9"></a-entity>
-          <a-entity light="type: directional; intensity: 0.6" position="0 1 -1"></a-entity>
-          <a-entity position="0 1.6 0"><a-camera wasd-controls-enabled="false"><a-entity cursor="rayOrigin: mouse"></a-entity></a-camera></a-entity>
+          <a-entity id="model" gltf-model="#mdl" position="0 1.2 -1.2"></a-entity>
+          <a-entity id="rig" position="0 1.6 0">
+            <a-entity id="camera" camera look-controls="enabled:false" orbit-controls="autoRotate:false; target: 0 1.2 -1.2; minDistance:0.1; maxDistance:100; enablePan:true; enableDamping:true; dampingFactor:0.15;"></a-entity>
+          </a-entity>
+          <a-entity light="type: ambient; intensity: 1.0"></a-entity>
+          <a-entity light="type: directional; intensity: 0.8" position="1 2 1"></a-entity>
           <a-sky color="#0b1020"></a-sky>
         </a-scene>
       </div>
     </section>
   </div>
+  <script>
+    const scene = document.querySelector('a-scene');
+    const model = document.querySelector('#model');
+    const cam = document.querySelector('#camera');
+    fitCameraToModel(scene, model, cam);
+  </script>
 </body>
 </html>

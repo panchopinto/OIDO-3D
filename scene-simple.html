@@ -77,15 +77,18 @@
         <a class="btn grad-green" href="scene-info.html"><svg class="ico-badge"><use href="#fig-info"/></svg> 3D con información</a>
         <a class="btn grad-orange" href="ar.html"><svg class="ico-badge"><use href="#fig-ar"/></svg> Realidad Aumentada</a>
       
-        <a class="btn grad-green" href="extras/glosario.html"><svg class="ico-badge"><use href="#fig-info"/></svg> Glosario</a>
-        <a class="btn grad-blue" href="extras/quiz.html"><svg class="ico-badge"><use href="#fig-3d"/></svg> Quiz</a>
+        <a class="btn grad-green" href="glosario.html"><svg class="ico-badge"><use href="#fig-info"/></svg> Glosario</a>
+        <a class="btn grad-blue" href="quiz.html"><svg class="ico-badge"><use href="#fig-3d"/></svg> Quiz</a>
     
       </nav>
     
     </header>
 
     <section class="card">
-      <mv-wrapper>
+      <div class="center-btn" id="btnCenter" title="Centrar modelo">
+           <svg viewBox="0 0 24 24"><path fill="#60a5fa" d="M12 7a5 5 0 100 10 5 5 0 000-10zm0-5v3M12 19v3M5 12H2M22 12h-3"/></svg>
+         </div>
+         <mv-wrapper>
         <model-viewer src="assets/models/oido.glb" camera-controls touch-action="pan-y" auto-rotate exposure="1.1" shadow-intensity="0.5"></model-viewer>
       </mv-wrapper>
       <p class="legend">Rotar: arrastrar • Zoom: scroll/pinch • Pan: botón derecho/dos dedos.</p>
@@ -106,6 +109,18 @@
     if (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(k)) return block(e);
     if (e.ctrlKey && ['u','s','p'].includes(k)) return block(e);
   }, {capture:true});
+})();
+</script>
+
+
+<script>
+(function(){
+  const mv = document.querySelector('model-viewer');
+  const btn = document.getElementById('btnCenter');
+  btn && btn.addEventListener('click', ()=>{
+    mv.resetTurntableRotation && mv.resetTurntableRotation();
+    mv.cameraOrbit = 'auto auto auto';
+  });
 })();
 </script>
 

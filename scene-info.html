@@ -128,15 +128,16 @@
         <a class="btn grad-green" href="scene-info.html"><svg class="ico-badge"><use href="#fig-info"/></svg> 3D con información</a>
         <a class="btn grad-orange" href="ar.html"><svg class="ico-badge"><use href="#fig-ar"/></svg> Realidad Aumentada</a>
       
-        <a class="btn grad-green" href="extras/glosario.html"><svg class="ico-badge"><use href="#fig-info"/></svg> Glosario</a>
-        <a class="btn grad-blue" href="extras/quiz.html"><svg class="ico-badge"><use href="#fig-3d"/></svg> Quiz</a>
+        <a class="btn grad-green" href="glosario.html"><svg class="ico-badge"><use href="#fig-info"/></svg> Glosario</a>
+        <a class="btn grad-blue" href="quiz.html"><svg class="ico-badge"><use href="#fig-3d"/></svg> Quiz</a>
     
       </nav>
     
     </header>
 
     <section class="card">
-      <div class="toolbar">
+      <div class="progress-pill" id="tourProgress">1 / 6</div>
+          <div class="toolbar">
             <button class="toolbtn" id="btn-prev" title="Anterior">
               <svg viewBox="0 0 24 24"><path fill="#7dd3fc" d="M15 6l-6 6 6 6V6z"/></svg>
             </button>
@@ -171,15 +172,16 @@
           </div>
           <mv-wrapper>
         <model-viewer id="mv" src="assets/models/oido.glb" camera-controls touch-action="pan-y" exposure="1.1" shadow-intensity="0.5">
-          <button class="hotspot" slot="hotspot-1" data-position="-0.055 0.065 -0.082" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-auricle"/></svg>Pabellón auricular</button>
-          <button class="hotspot" slot="hotspot-2" data-position="0.002 0.018 -0.052" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-tympanum"/></svg>Tímpano</button>
-          <button class="hotspot" slot="hotspot-3" data-position="0.034 0.021 -0.051" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-ossicles"/></svg>Cadena osicular</button>
-          <button class="hotspot" slot="hotspot-4" data-position="0.084 -0.012 -0.082" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-cochlea"/></svg>Cóclea</button>
-          <button class="hotspot" slot="hotspot-5" data-position="0.112 0.032 -0.091" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-canals"/></svg>Canales semicirculares</button>
-          <button class="hotspot" slot="hotspot-6" data-position="-0.024 -0.028 -0.041" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-eustachian"/></svg>Trompa de Eustaquio</button>
+          <button class="hotspot" slot="hotspot-1" data-position="-0.055 0.065 -0.082" data-normal="0 1 0" data-visibility-attribute="visible">Pabellón auricular</button>
+          <button class="hotspot" slot="hotspot-2" data-position="0.002 0.018 -0.052" data-normal="0 1 0" data-visibility-attribute="visible">Tímpano</button>
+          <button class="hotspot" slot="hotspot-3" data-position="0.034 0.021 -0.051" data-normal="0 1 0" data-visibility-attribute="visible">Cadena osicular</button>
+          <button class="hotspot" slot="hotspot-4" data-position="0.084 -0.012 -0.082" data-normal="0 1 0" data-visibility-attribute="visible">Cóclea</button>
+          <button class="hotspot" slot="hotspot-5" data-position="0.112 0.032 -0.091" data-normal="0 1 0" data-visibility-attribute="visible">Canales semicirculares</button>
+          <button class="hotspot" slot="hotspot-6" data-position="-0.024 -0.028 -0.041" data-normal="0 1 0" data-visibility-attribute="visible">Trompa de Eustaquio</button>
         </model-viewer>
       </mv-wrapper>
       <div class="panel" id="info-panel">
+        <div class="progress-bar"><span id="tourBar" style="width:0%"></span></div>
         <h3 id="info-title">Partes del oído</h3>
         <p id="info-desc">Toca un hotspot o usa el botón <em>info</em> para ver una breve descripción.</p>
         <div class="chipline">
@@ -333,6 +335,7 @@
   const DUR = 3200; // ms between steps
 
   function focusStep(i){
+    
     if(steps.length===0) return;
     idx = (i+steps.length)%steps.length;
     const st = steps[idx];
@@ -343,7 +346,13 @@
     const o = mv.getCameraOrbit();
     const newRadius = Math.max(0.08, o.radius*0.85);
     mv.cameraTarget = posToTarget(st.pos);
-    mv.cameraOrbit = `${o.theta} ${o.phi} ${newRadius}`;
+    mv.cameraOrbit = `${o.theta
+    try{
+      const total = steps.length||6;
+      const evt = new CustomEvent('tour-step', {detail:{index: idx, total}});
+      document.dispatchEvent(evt);
+    }catch(e){}
+  } ${o.phi} ${newRadius}`;
     // small highlight
     st.el.style.transform = 'scale(1.08)';
     setTimeout(()=> st.el.style.transform = '', 250);
@@ -373,6 +382,32 @@
       const i = steps.findIndex(s=> s.el===ev.target);
       if(i>=0){ focusStep(i); }
     }
+  });
+})();
+</script>
+
+
+<script>
+// v21: tour progress indicator
+(function(){
+  const pill = document.getElementById('tourProgress');
+  const bar  = document.getElementById('tourBar');
+  const mv = document.getElementById('mv');
+  function update(i, total){
+    if(!pill || !bar) return;
+    pill.textContent = (i+1) + ' / ' + total;
+    const pct = Math.round(((i+1)/total)*100);
+    bar.style.width = pct + '%';
+  }
+  // Hook into existing tour by monkey-patching focusStep if present
+  // Find the previous script attaching focusStep via window or closure; we re-declare a marker event
+  document.addEventListener('tour-step', (e)=>{
+    const {index, total} = e.detail || {}; update(index||0, total||6);
+  });
+  // If no custom event is fired by existing code, we attempt to observe clicks on hotspots and estimate index
+  const hotspots = Array.from(mv.querySelectorAll('.hotspot'));
+  hotspots.forEach((h, i)=>{
+    h.addEventListener('click', ()=> update(i, hotspots.length));
   });
 })();
 </script>

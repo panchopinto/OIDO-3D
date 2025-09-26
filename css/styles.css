@@ -134,3 +134,21 @@ ul.clean li strong { margin-right:4px; }
 .ar-toolbar .ar-btn.primary { border-color:#2563eb; box-shadow:0 8px 22px rgba(37,99,235,.35); }
 .ar-toolbar .ar-btn.success { border-color:#16a34a; box-shadow:0 8px 22px rgba(22,163,74,.35); }
     
+/* v21: featured row + tour progress + center button */
+.featured{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
+@media(max-width:900px){.featured{grid-template-columns:1fr}}
+.card.feature{padding:22px 20px;border:1px solid rgba(255,255,255,.12)}
+.card.feature.grad-g{background:linear-gradient(135deg, rgba(16,185,129,.18), rgba(16,185,129,.08))}
+.card.feature.grad-b{background:linear-gradient(135deg, rgba(59,130,246,.18), rgba(59,130,246,.08))}
+.card.feature h2{margin:.2rem 0 0.4rem 0;display:flex;align-items:center;gap:10px}
+.card.feature p{margin:.2rem 0}
+.progress-pill{position:absolute;left:12px;top:12px;background:rgba(10,16,28,.9);border:1px solid #2a3550;border-radius:999px;padding:6px 10px;font-size:.85rem}
+.progress-bar{height:6px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:8px}
+.progress-bar > span{display:block;height:100%;background:linear-gradient(90deg,#60a5fa,#34d399);width:0%}
+.center-btn{
+  position:absolute; right:12px; top:12px; z-index:5;
+  width:40px;height:40px;border-radius:12px;border:1px solid #2a3550;
+  background:rgba(10,16,28,.92); display:grid; place-items:center;
+  box-shadow:0 6px 16px rgba(0,0,0,.45);
+}
+.center-btn svg{width:20px;height:20px}

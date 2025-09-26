@@ -71,3 +71,10 @@ model-viewer{width:100%;height:100%;background:radial-gradient(600px 400px at 20
 .btn .ico { width:20px; height:20px; flex:0 0 20px; filter: drop-shadow(0 1px 0 rgba(0,0,0,.25)); }
 .btn { column-gap:.6rem; }
     
+/* v11: icons inside cards */
+.card-ico{
+  display:inline-grid; place-items:center; width:28px; height:28px; margin-right:8px;
+  border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+  vertical-align:-6px;
+}
+.card-ico svg{ width:18px; height:18px; display:block; }

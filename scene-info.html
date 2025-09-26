@@ -9,6 +9,57 @@
 </head>
 <body>
   
+<!-- v15: Ear-part figure icons -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="bg-ext" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#86efac"/><stop offset="100%" stop-color="#22c55e"/></linearGradient>
+    <linearGradient id="bg-mid" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>
+    <linearGradient id="bg-int" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f0abfc"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
+    <linearGradient id="bg-tube" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fcd34d"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+  </defs>
+</svg>
+<svg width="0" height="0" style="position:absolute">
+  <!-- Auricle (oreja) -->
+  <symbol id="fig-auricle" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-ext)"/>
+    <path d="M38 19c-8-3-16 6-16 15 0 10 8 13 10 7 1-4-3-5-3-9 0-5 6-8 9-5 3 3 0 7 2 10 2 2 5-1 5-5 0-6-3-10-7-13z" fill="#083" opacity=".95"/>
+  </symbol>
+  <!-- Tympanum (tímpano) -->
+  <symbol id="fig-tympanum" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-mid)"/>
+    <circle cx="32" cy="32" r="12" fill="#fff" opacity=".95"/>
+    <path d="M22 32h20" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+  <!-- Ossicles (martillo-yunque-estribo) -->
+  <symbol id="fig-ossicles" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-mid)"/>
+    <path d="M22 36c4-8 6-10 10-10 6 0 8 4 12 10" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="32" cy="26" r="2.2" fill="#fff"/><circle cx="26" cy="34" r="2.2" fill="#fff"/><circle cx="40" cy="34" r="2.2" fill="#fff"/>
+  </symbol>
+  <!-- Cochlea (cóclea) -->
+  <symbol id="fig-cochlea" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-int)"/>
+    <path d="M36 28c4 0 6 3 6 6 0 7-7 10-12 10-8 0-12-6-12-12 0-7 6-12 12-12 5 0 9 3 10 7" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <!-- Semicircular canals (canales) -->
+  <symbol id="fig-canals" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-int)"/>
+    <path d="M22 30a10 10 0 0020 0M24 36a8 8 0 0016 0M26 24a8 8 0 0012 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <!-- Eustachian tube (trompa) -->
+  <symbol id="fig-eustachian" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-tube)"/>
+    <path d="M18 34c8-6 14-6 25-2l3 1" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="46" cy="33" r="2.5" fill="#fff"/>
+  </symbol>
+  <!-- Auditory nerve (nervio) -->
+  <symbol id="fig-nerve" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#bg-int)"/>
+    <path d="M22 34c6-4 8-8 12-12 3 5 7 9 12 12-4 3-8 7-12 12-3-5-6-9-12-12z" fill="#fff" opacity=".95"/>
+  </symbol>
+</svg>
+
+  
 <!-- v14: Figure icons (badge-like) -->
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -116,12 +167,12 @@
           </div>
           <mv-wrapper>
         <model-viewer id="mv" src="assets/models/oido.glb" camera-controls touch-action="pan-y" exposure="1.1" shadow-intensity="0.5">
-          <button class="hotspot" slot="hotspot-1" data-position="-0.05 0.06 -0.08" data-normal="0 1 0" data-visibility-attribute="visible">Pabellón auricular</button>
-          <button class="hotspot" slot="hotspot-2" data-position="0 0.02 -0.05" data-normal="0 1 0" data-visibility-attribute="visible">Tímpano</button>
-          <button class="hotspot" slot="hotspot-3" data-position="0.03 0.02 -0.05" data-normal="0 1 0" data-visibility-attribute="visible">Cadena osicular</button>
-          <button class="hotspot" slot="hotspot-4" data-position="0.08 -0.01 -0.08" data-normal="0 1 0" data-visibility-attribute="visible">Cóclea</button>
-          <button class="hotspot" slot="hotspot-5" data-position="0.11 0.03 -0.09" data-normal="0 1 0" data-visibility-attribute="visible">Canales semicirculares</button>
-          <button class="hotspot" slot="hotspot-6" data-position="-0.02 -0.03 -0.04" data-normal="0 1 0" data-visibility-attribute="visible">Trompa de Eustaquio</button>
+          <button class="hotspot" slot="hotspot-1" data-position="-0.05 0.06 -0.08" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-auricle"/></svg>Pabellón auricular</button>
+          <button class="hotspot" slot="hotspot-2" data-position="0 0.02 -0.05" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-tympanum"/></svg>Tímpano</button>
+          <button class="hotspot" slot="hotspot-3" data-position="0.03 0.02 -0.05" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-ossicles"/></svg>Cadena osicular</button>
+          <button class="hotspot" slot="hotspot-4" data-position="0.08 -0.01 -0.08" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-cochlea"/></svg>Cóclea</button>
+          <button class="hotspot" slot="hotspot-5" data-position="0.11 0.03 -0.09" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-canals"/></svg>Canales semicirculares</button>
+          <button class="hotspot" slot="hotspot-6" data-position="-0.02 -0.03 -0.04" data-normal="0 1 0" data-visibility-attribute="visible"><svg class="ico-badge" viewBox="0 0 64 64" style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"><use href="#fig-eustachian"/></svg>Trompa de Eustaquio</button>
         </model-viewer>
       </mv-wrapper>
       <div class="panel" id="info-panel">
@@ -164,10 +215,11 @@
   const INFO = {
     "Pabellón auricular": "Parte externa que capta y canaliza el sonido hacia el conducto auditivo.",
     "Tímpano": "Membrana que vibra con las ondas sonoras; separa el oído externo del medio.",
-    "Cadena osicular": "Martillo, yunque y estribo; amplifican la vibración del tímpano.",
-    "Cóclea": "Convierte vibraciones en impulsos nerviosos (audición).",
-    "Canales semicirculares": "Detectan la rotación de la cabeza; fundamentales para el equilibrio.",
-    "Trompa de Eustaquio": "Equilibra la presión entre oído medio y ambiente."
+    "Cadena osicular": "Martillo, yunque y estribo; amplifican la vibración del tímpano hacia la cóclea.",
+    "Cóclea": "Estructura en espiral que convierte vibraciones en impulsos nerviosos (audición).",
+    "Canales semicirculares": "Estructuras del oído interno que detectan movimientos de rotación (equilibrio).",
+    "Trompa de Eustaquio": "Equilibra la presión del oído medio con la presión atmosférica.",
+    "Nervio auditivo": "Transporta la información sonora desde la cóclea al cerebro."
   };
 
   // Hotspot click binding
@@ -251,10 +303,11 @@
   const INFO = {
     "Pabellón auricular": "Parte externa que capta y canaliza el sonido hacia el conducto auditivo.",
     "Tímpano": "Membrana que vibra con las ondas sonoras; separa el oído externo del medio.",
-    "Cadena osicular": "Martillo, yunque y estribo; amplifican la vibración del tímpano.",
-    "Cóclea": "Convierte vibraciones en impulsos nerviosos (audición).",
-    "Canales semicirculares": "Detectan rotación de la cabeza; esenciales para el equilibrio.",
-    "Trompa de Eustaquio": "Equilibra la presión entre oído medio y ambiente."
+    "Cadena osicular": "Martillo, yunque y estribo; amplifican la vibración del tímpano hacia la cóclea.",
+    "Cóclea": "Estructura en espiral que convierte vibraciones en impulsos nerviosos (audición).",
+    "Canales semicirculares": "Estructuras del oído interno que detectan movimientos de rotación (equilibrio).",
+    "Trompa de Eustaquio": "Equilibra la presión del oído medio con la presión atmosférica.",
+    "Nervio auditivo": "Transporta la información sonora desde la cóclea al cerebro."
   };
 
   function parsePos(str){

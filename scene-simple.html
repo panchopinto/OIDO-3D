@@ -24,17 +24,18 @@
 <header class="header">
   <div class="brand"><div class="logo"><svg viewBox="0 0 24 24"><use href="#ico-3d"/></svg></div><h1>Vista 3D simple — Oído</h1></div>
   <nav class="actions">
-    <button id="themeToggle" class="theme-btn" type="button">Tema</button>
+    <button id="themeToggle" class="theme-btn" type="button"><svg viewBox="0 0 24 24"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM1 13h3v-2H1v2zm10-9h-2v3h2V4zm7.04.46l-1.41-1.41-1.8 1.79 1.41 1.41 1.8-1.79zM20 11v2h3v-2h-3zm-9 9h2v-3h-2v3zm6.24-1.84l1.8 1.79 1.41-1.41-1.79-1.8-1.42 1.42zM12 6a6 6 0 100 12 6 6 0 000-12z"/></svg></button>
     <a class="btn grad-purple" href="index.html"><svg class="ico"><use href="#ico-home"/></svg> Inicio</a>
     <a class="btn grad-green" href="scene-info.html"><svg class="ico"><use href="#ico-info"/></svg> 3D con información</a>
     <a class="btn grad-orange" href="ar.html"><svg class="ico"><use href="#ico-ar"/></svg> Realidad Aumentada</a>
   </nav>
 </header>
 <section class="card">
-  <div class="center-btn" id="btnCenter" title="Centrar modelo"><svg viewBox="0 0 24 24"><path fill="#60a5fa" d="M12 7a5 5 0 100 10 5 5 0 000-10zm0-5v3M12 19v3M5 12H2M22 12h-3"/></svg></div>
+  <mv-wrapper>
+      <div class="center-btn" id="btnCenter" title="Centrar modelo"><svg viewBox="0 0 24 24"><path fill="#60a5fa" d="M12 7a5 5 0 100 10 5 5 0 000-10zm0-5v3M12 19v3M5 12H2M22 12h-3"/></svg></div>
   <mv-wrapper>
     <model-viewer src="assets/models/oido.glb" camera-controls touch-action="pan-y" auto-rotate exposure="1.1" shadow-intensity="0.5"></model-viewer>
-  </mv-wrapper>
+        </mv-wrapper>
   <div class="loader"><span id="mvProgressSimple"></span></div>
   <p class="legend">Rotar: arrastrar • Zoom: scroll/pinch • Pan: botón derecho/dos dedos.</p>
 </section>

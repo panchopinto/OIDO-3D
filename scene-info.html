@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>3D con información — Oído</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script>
+    AFRAME.registerComponent('hotspot', {
+      schema: { label: {type:'string'}, desc: {type:'string'}, color:{type:'string', default:'#fff'} },
+      init(){
+        const el = this.el, d = this.data;
+        const sphere = document.createElement('a-sphere');
+        sphere.setAttribute('radius','0.01');
+        sphere.setAttribute('color', d.color);
+        sphere.setAttribute('opacity','0.9');
+        el.appendChild(sphere);
+        const text = document.createElement('a-entity');
+        text.setAttribute('text', { value: d.label, align:'center', width: 1.4 });
+        text.setAttribute('position','0 0.03 0');
+        text.setAttribute('visible', false);
+        el.appendChild(text);
+        el.addEventListener('mouseenter', ()=> text.setAttribute('visible', true));
+        el.addEventListener('mouseleave', ()=> text.setAttribute('visible', false));
+        el.addEventListener('click', ()=> {
+          const panel = document.querySelector('#info-panel');
+          panel.querySelector('h3').textContent = d.label;
+          panel.querySelector('p').textContent = d.desc;
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="g-green" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#10b981"/></linearGradient>
+    <linearGradient id="g-blue"  x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>
+    <linearGradient id="g-orange"x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+    <linearGradient id="g-purple"x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c084fc"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+  </defs>
+</svg>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="ico-3d" viewBox="0 0 24 24"><path fill="url(#g-blue)" d="M12 2l9 5v10l-9 5-9-5V7l9-5zm0 2.2L5 7v8l7 3.8 7-3.8V7l-7-2.8z"/></symbol>
+  <symbol id="ico-info" viewBox="0 0 24 24"><path fill="url(#g-green)" d="M11 9h2v8h-2zM11 5h2v2h-2zM12 2a10 10 0 100 20 10 10 0 000-20z"/></symbol>
+  <symbol id="ico-ar" viewBox="0 0 24 24"><path fill="url(#g-orange)" d="M12 2l7 4v12l-7 4-7-4V6l7-4zm0 2.2L7 6.5v7l5 2.8 5-2.8v-7L12 4.2z"/></symbol>
+  <symbol id="ico-home" viewBox="0 0 24 24"><path fill="url(#g-purple)" d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3l9-8z"/></symbol>
+</svg>
+
+  <div class="container">
+    <header class="header">
+      <div class="brand"><div class="logo"><svg viewBox="0 0 24 24"><use href="#ico-info"></use></svg></div><h1>3D con información — Oído</h1></div>
+      <nav class="actions"><a class="btn" href="index.html"><svg class="ico"><use href="#ico-home"/></svg> Inicio</a></nav>
+    </header>
+
+    <div class="row">
+      <section class="card" style="flex:1; padding:0; overflow:hidden">
+        <div style="height:70vh;min-height:420px">
+          <a-scene renderer="antialias:true">
+            <a-assets>
+              <a-asset-item id="mdl" src="OIDO-3D-main/assets/models/oido.glb"></a-asset-item>
+            </a-assets>
+            <a-entity position="0 1.6 0">
+              <a-entity gltf-model="#mdl" position="0 1.5 -1.5" rotation="0 40 0"></a-entity>
+              <!-- Hotspots (ajusta posiciones según tu modelo) -->
+              <a-entity hotspot="label: Pabellón auricular; desc: Parte externa que capta el sonido.; color: #60a5fa" position="-0.05 1.6 -1.2"></a-entity>
+              <a-entity hotspot="label: Tímpano; desc: Membrana que vibra con las ondas sonoras.; color: #f59e0b" position="0 1.5 -1.1"></a-entity>
+              <a-entity hotspot="label: Cadena osicular; desc: Martillo, yunque y estribo amplifican la vibración.; color: #34d399" position="0.05 1.52 -1.1"></a-entity>
+              <a-entity hotspot="label: Cóclea; desc: Transforma vibraciones en impulsos nerviosos.; color: #c084fc" position="0.12 1.48 -1.2"></a-entity>
+              <a-entity hotspot="label: Canales semicirculares; desc: Órganos del equilibrio.; color: #a78bfa" position="0.16 1.54 -1.22"></a-entity>
+              <a-entity hotspot="label: Trompa de Eustaquio; desc: Regula la presión del oído medio.; color: #fbbf24" position="-0.02 1.46 -1.08"></a-entity>
+            </a-entity>
+            <a-entity position="0 1.6 0"><a-camera wasd-controls-enabled="false"><a-entity cursor="rayOrigin: mouse"></a-entity></a-camera></a-entity>
+            <a-entity light="type: ambient; intensity: 0.9"></a-entity>
+            <a-entity light="type: directional; intensity: 0.6" position="0 1 -1"></a-entity>
+            <a-sky color="#0b1020"></a-sky>
+          </a-scene>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <section id="info-panel" class="card info">
+          <h3>Selecciona una parte del oído</h3>
+          <p>Haz clic en los puntos del modelo para ver su descripción.</p>
+          <ul class="clean">
+            <li>Externo: pabellón auricular, conducto auditivo.</li>
+            <li>Medio: tímpano, martillo, yunque, estribo.</li>
+            <li>Interno: cóclea, canales semicirculares, nervio auditivo.</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

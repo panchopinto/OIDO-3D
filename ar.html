@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>OÍDO — AR Biología</title>
+  <title>AR — Oído (AR.js)</title>
   <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
 </head>
-<body>
+<body style="margin:0; overflow:hidden;">
   
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -23,40 +25,25 @@
   <symbol id="ico-home" viewBox="0 0 24 24"><path fill="url(#g-purple)" d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3l9-8z"/></symbol>
 </svg>
 
-  <div class="container">
+  <div class="container" style="position:absolute;z-index:2;left:0;right:0">
     <header class="header">
-      <div class="brand">
-        <div class="logo"><svg viewBox="0 0 24 24"><use href="#ico-3d"></use></svg></div>
-        <h1>OÍDO — AR Biología</h1>
-      </div>
-      <nav class="actions">
-        <a class="btn" href="index.html"><svg class="ico"><use href="#ico-home"/></svg> Inicio</a>
-      </nav>
+      <div class="brand"><div class="logo"><svg viewBox="0 0 24 24"><use href="#ico-ar"></use></svg></div><h1>Realidad Aumentada — Oído</h1></div>
+      <nav class="actions"><a class="btn" href="index.html"><svg class="ico"><use href="#ico-home"/></svg> Inicio</a></nav>
     </header>
-
-    <section class="hero">
-      <div class="cards3">
-        <a class="card link" href="scene-simple.html">
-          <h3 class="title"><svg class="ico"><use href="#ico-3d"/></svg> Vista 3D simple</h3>
-          <p>Modelo del oído para rotar/zoom sin distracciones.</p>
-          <span class="badge">GLB: OIDO-3D-main/assets/models/oido.glb</span>
-        </a>
-        <a class="card link" href="scene-info.html">
-          <h3 class="title"><svg class="ico"><use href="#ico-info"/></svg> 3D con información</h3>
-          <p>Hotspots interactivos y panel lateral con términos.</p>
-          <span class="badge">Etiquetas: externo/medio/interno</span>
-        </a>
-        <a class="card link" href="ar.html">
-          <h3 class="title"><svg class="ico"><use href="#ico-ar"/></svg> Realidad Aumentada</h3>
-          <p>Proyecta el modelo sobre un marcador HIRO usando la cámara.</p>
-          <span class="badge">AR.js (sin apps)</span>
-        </a>
-      </div>
+    <section class="card">
+      <p>Apunta la cámara al marcador <strong>HIRO</strong> para ver el modelo del oído en AR.</p>
+      <p><a class="btn" href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/three.js/examples/marker-training/examples/pattern-files/pattern-hiro.png" target="_blank">Descargar marcador HIRO</a></p>
     </section>
-
-    <footer class="footer">
-      <small>© 2025 — Proyecto AR Biología • Licencia MIT</small>
-    </footer>
   </div>
+
+  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;" renderer="antialias:true" vr-mode-ui="enabled:false">
+    <a-assets>
+      <a-asset-item id="mdl" src="OIDO-3D-main/assets/models/oido.glb"></a-asset-item>
+    </a-assets>
+    <a-marker preset="hiro">
+      <a-entity gltf-model="#mdl" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
 </body>
 </html>

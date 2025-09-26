@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>OÍDO — AR Biología</title>
+  <title>Vista 3D simple — Oído</title>
   <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
   
@@ -25,38 +26,23 @@
 
   <div class="container">
     <header class="header">
-      <div class="brand">
-        <div class="logo"><svg viewBox="0 0 24 24"><use href="#ico-3d"></use></svg></div>
-        <h1>OÍDO — AR Biología</h1>
-      </div>
-      <nav class="actions">
-        <a class="btn" href="index.html"><svg class="ico"><use href="#ico-home"/></svg> Inicio</a>
-      </nav>
+      <div class="brand"><div class="logo"><svg viewBox="0 0 24 24"><use href="#ico-3d"></use></svg></div><h1>Vista 3D simple — Oído</h1></div>
+      <nav class="actions"><a class="btn" href="index.html"><svg class="ico"><use href="#ico-home"/></svg> Inicio</a></nav>
     </header>
-
-    <section class="hero">
-      <div class="cards3">
-        <a class="card link" href="scene-simple.html">
-          <h3 class="title"><svg class="ico"><use href="#ico-3d"/></svg> Vista 3D simple</h3>
-          <p>Modelo del oído para rotar/zoom sin distracciones.</p>
-          <span class="badge">GLB: OIDO-3D-main/assets/models/oido.glb</span>
-        </a>
-        <a class="card link" href="scene-info.html">
-          <h3 class="title"><svg class="ico"><use href="#ico-info"/></svg> 3D con información</h3>
-          <p>Hotspots interactivos y panel lateral con términos.</p>
-          <span class="badge">Etiquetas: externo/medio/interno</span>
-        </a>
-        <a class="card link" href="ar.html">
-          <h3 class="title"><svg class="ico"><use href="#ico-ar"/></svg> Realidad Aumentada</h3>
-          <p>Proyecta el modelo sobre un marcador HIRO usando la cámara.</p>
-          <span class="badge">AR.js (sin apps)</span>
-        </a>
+    <section class="card" style="padding:0;overflow:hidden">
+      <div style="height:70vh;min-height:420px">
+        <a-scene renderer="antialias:true">
+          <a-assets>
+            <a-asset-item id="mdl" src="OIDO-3D-main/assets/models/oido.glb"></a-asset-item>
+          </a-assets>
+          <a-entity gltf-model="#mdl" position="0 1.5 -1.5" rotation="0 40 0"></a-entity>
+          <a-entity light="type: ambient; intensity: 0.9"></a-entity>
+          <a-entity light="type: directional; intensity: 0.6" position="0 1 -1"></a-entity>
+          <a-entity position="0 1.6 0"><a-camera wasd-controls-enabled="false"><a-entity cursor="rayOrigin: mouse"></a-entity></a-camera></a-entity>
+          <a-sky color="#0b1020"></a-sky>
+        </a-scene>
       </div>
     </section>
-
-    <footer class="footer">
-      <small>© 2025 — Proyecto AR Biología • Licencia MIT</small>
-    </footer>
   </div>
 </body>
 </html>

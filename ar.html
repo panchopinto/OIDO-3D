@@ -98,13 +98,21 @@
       <button class="ar-btn" id="arRecenter" title="Recolocar modelo">
         <svg viewBox="0 0 24 24"><path fill="#f0abfc" d="M12 5V3l-4 3 4 3V7a5 5 0 015 5h2a7 7 0 00-7-7zM5 12a7 7 0 007 7v2A9 9 0 013 12h2z"/></svg>
       </button>
+      <button class="ar-btn" id="arHelpBtn" title="Ayuda / gestos"
+      ></button>
+      <button class="ar-btn primary" id="arPlaceOn" title="Colocar aquí (tocar piso)">
+        <svg viewBox="0 0 24 24"><path fill="#60a5fa" d="M12 2l4 7h-3v6h-2V9H8l4-7z"/><ellipse cx="12" cy="19" rx="6" ry="2.5" fill="#60a5fa" opacity=".5"/></svg>
+      </button>
+      <button class="ar-btn success" id="arPlaceOff" title="Listo">
+        <svg viewBox="0 0 24 24"><path fill="#34d399" d="M9 16.2l-3.5-3.5L4 14.2 9 19l11-11-1.5-1.5z"/></svg>
+      </button>
       <button class="ar-btn" id="arHelpBtn" title="Ayuda / gestos">
         <svg viewBox="0 0 24 24"><path fill="#e879f9" d="M12 2a10 10 0 100 20 10 10 0 000-20zM11 10h2v7h-2zm0-4h2v2h-2z"/></svg>
       </button>
     </div>
     <div class="ar-help" id="arHelp">Gestos: rotar con 1 dedo • escalar con 2 dedos • mover con 2 dedos (según modo). En Android (Scene Viewer) y iOS (Quick Look) los gestos son nativos. Los botones funcionan en WebXR y vista previa.</div>
     
-        <model-viewer src="assets/models/oido.glb" ios-src="assets/models/oido.usdz" ar ar-modes="webxr scene-viewer quick-look" camera-controls touch-action="pan-y" ar-scale="fixed" shadow-intensity="0.5"></model-viewer>
+        <model-viewer src="assets/models/oido.glb" ios-src="assets/models/oido.usdz" ar ar-modes="webxr scene-viewer quick-look" ar-placement="floor" camera-controls touch-action="pan-y" ar-scale="fixed" shadow-intensity="0.5"></model-viewer>
       </mv-wrapper>
       <p class="legend">Android: Scene Viewer/WebXR. iOS: requiere USDZ para Quick Look (puedo convertir tu GLB a USDZ).</p>
     </section>
@@ -189,6 +197,49 @@
 
   // Initialize scale after model loads
   mv.addEventListener('load', ()=> applyScale(1.0));
+})();
+</script>
+
+
+<script>
+// v18: placement mode using model-viewer's built-in ar-placement="interaction"
+(function(){
+  const mv = document.querySelector('model-viewer');
+  const btnOn  = document.getElementById('arPlaceOn');
+  const btnOff = document.getElementById('arPlaceOff');
+  const toolbar = document.getElementById('arToolbar');
+  let placing = false;
+
+  function setPlacing(on){
+    placing = on;
+    if (placing){
+      mv.setAttribute('ar-placement', 'interaction'); // shows reticle; tap to place
+      btnOn.style.opacity = '1';
+      btnOff.style.opacity = '1';
+    } else {
+      mv.setAttribute('ar-placement', 'floor'); // auto-lock to floor plane
+      btnOn.style.opacity = '0.85';
+      btnOff.style.opacity = '0.85';
+    }
+  }
+
+  btnOn && btnOn.addEventListener('click', ()=> setPlacing(true));
+  btnOff && btnOff.addEventListener('click', ()=> setPlacing(false));
+
+  // When AR session starts, default to floor; show toolbar in WebXR; hide in native
+  mv.addEventListener('ar-status', (ev)=>{
+    const st = ev.detail.status || mv.getAttribute('ar-status');
+    if (st === 'session-started'){
+      // WebXR session
+      toolbar.style.display = 'flex';
+      setPlacing(false);
+    } else if (st === 'not-presenting' || st === 'failed'){
+      toolbar.style.display = 'flex';
+      setPlacing(false);
+    } else {
+      toolbar.style.display = 'none'; // native app
+    }
+  });
 })();
 </script>
 

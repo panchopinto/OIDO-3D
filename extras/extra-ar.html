@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>OÍDO — AR Biología</title>
+  <title>Realidad Aumentada — Oído</title>
   <link rel="stylesheet" href="css/styles.css"/>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
   
@@ -68,10 +69,7 @@
 
   <div class="container">
     <header class="header">
-      <div class="brand">
-        <div class="logo"><svg viewBox="0 0 24 24"><use href="#fig-3d"></use></svg></div>
-        <h1>OÍDO — AR Biología</h1>
-      </div>
+      <div class="brand"><div class="logo"><svg viewBox="0 0 24 24"><use href="#fig-ar"/></svg></div><h1>Realidad Aumentada — Oído</h1></div>
       
       <nav class="actions">
         <a class="btn grad-purple" href="index.html"><svg class="ico-badge"><use href="#fig-home"/></svg> Inicio</a>
@@ -83,71 +81,34 @@
     </header>
 
     <section class="card">
-      <p class="legend"><strong>Controles:</strong> Rotar (arrastrar) • Zoom (rueda/pinch) • Pan (botón derecho / dos dedos).</p>
-    </section>
-
-    <section class="cards3" style="margin-top:16px">
-      <a class="card link grad-a" href="scene-simple.html"><h3><span class="card-ico"><svg viewBox="0 0 24 24"><use href="#fig-3d"/></svg></span> Vista 3D simple</h3><p>Explora libremente el modelo.</p><div class="chipline"><span class="chip blue"><span class="chip-ico"><svg><use href="#fig-3d"/></svg></span>3D</span><span class="chip purple"><span class="chip-ico"><svg><use href="#fig-home"/></svg></span>Gestos</span><span class="chip green"><span class="chip-ico"><svg><use href="#fig-info"/></svg></span>Suave</span></div></a>
-      <a class="card link grad-b" href="scene-info.html"><h3><span class="card-ico"><svg viewBox="0 0 24 24"><use href="#fig-info"/></svg></span> 3D con información</h3><p>Hotspots sobre las partes del oído.</p><div class="chipline"><span class="chip green"><span class="chip-ico"><svg><use href="#fig-info"/></svg></span>Hotspots</span><span class="chip blue"><span class="chip-ico"><svg><use href="#fig-3d"/></svg></span>Anatomía</span><span class="chip orange"><span class="chip-ico"><svg><use href="#fig-ar"/></svg></span>Aprendizaje</span></div></a>
-      <a class="card link grad-c" href="ar.html"><h3><span class="card-ico"><svg viewBox="0 0 24 24"><use href="#fig-ar"/></svg></span> Realidad Aumentada</h3><p>Proyecta el modelo con tu cámara.</p><div class="chipline"><span class="chip orange"><span class="chip-ico"><svg><use href="#fig-ar"/></svg></span>AR</span><span class="chip blue"><span class="chip-ico"><svg><use href="#fig-3d"/></svg></span>WebXR</span><span class="chip green"><span class="chip-ico"><svg><use href="#fig-info"/></svg></span>Móvil</span></div></a>
-    </section>
-
+      <mv-wrapper>
+    <div class="ar-toolbar" id="arToolbar">
+      <button class="ar-btn" id="arRotateL" title="Girar a la izquierda">
+        <svg viewBox="0 0 24 24"><path fill="#93c5fd" d="M12 6v3l4-4-4-4v3A7 7 0 105 12H3a9 9 0 119 9v-2a7 7 0 100-13z"/></svg>
+      </button>
+      <button class="ar-btn" id="arRotateR" title="Girar a la derecha">
+        <svg viewBox="0 0 24 24"><path fill="#93c5fd" d="M12 6v3l4-4-4-4v3a9 9 0 11-9 9h2a7 7 0 107-7z"/></svg>
+      </button>
+      <button class="ar-btn" id="arZoomIn" title="Aumentar tamaño">
+        <svg viewBox="0 0 24 24"><path fill="#86efac" d="M11 6h2v5h5v2h-5v5h-2v-5H6v-2h5z"/></svg>
+      </button>
+      <button class="ar-btn" id="arZoomOut" title="Disminuir tamaño">
+        <svg viewBox="0 0 24 24"><path fill="#fcd34d" d="M6 11h12v2H6z"/></svg>
+      </button>
+      <button class="ar-btn" id="arRecenter" title="Recolocar modelo">
+        <svg viewBox="0 0 24 24"><path fill="#f0abfc" d="M12 5V3l-4 3 4 3V7a5 5 0 015 5h2a7 7 0 00-7-7zM5 12a7 7 0 007 7v2A9 9 0 013 12h2z"/></svg>
+      </button>
+      <button class="ar-btn" id="arHelpBtn" title="Ayuda / gestos">
+        <svg viewBox="0 0 24 24"><path fill="#e879f9" d="M12 2a10 10 0 100 20 10 10 0 000-20zM11 10h2v7h-2zm0-4h2v2h-2z"/></svg>
+      </button>
+    </div>
+    <div class="ar-help" id="arHelp">Gestos: rotar con 1 dedo • escalar con 2 dedos • mover con 2 dedos (según modo). En Android (Scene Viewer) y iOS (Quick Look) los gestos son nativos. Los botones funcionan en WebXR y vista previa.</div>
     
-    <section class="card" style="margin-top:18px">
-      <h3 style="margin-top:0">Extras</h3>
-      <p class="legend">Páginas adicionales integradas desde el ZIP subido.</p>
-      <div class="cards3">
-
-      <a class="card link grad-c" href="extras/extra-ar.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-ar"/></svg></span>Realidad Aumentada — Oído</h3>
-        <p>Abrir: extra-ar.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-
-      <a class="card link grad-a" href="extras/creditos.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-3d"/></svg></span>Créditos — OÍDO</h3>
-        <p>Abrir: creditos.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-
-      <a class="card link grad-c" href="extras/glosario.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-ar"/></svg></span>Glosario — OÍDO</h3>
-        <p>Abrir: glosario.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-
-      <a class="card link grad-c" href="extras/extra-index.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-ar"/></svg></span>OÍDO — AR Biología</h3>
-        <p>Abrir: extra-index.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-
-      <a class="card link grad-a" href="extras/quiz.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-3d"/></svg></span>Quiz — OÍDO</h3>
-        <p>Abrir: quiz.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-
-      <a class="card link grad-b" href="extras/extra-scene-info.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-info"/></svg></span>3D con información — Oído</h3>
-        <p>Abrir: extra-scene-info.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-
-      <a class="card link grad-a" href="extras/extra-scene-simple.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-3d"/></svg></span>Vista 3D simple — Oído</h3>
-        <p>Abrir: extra-scene-simple.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-
-      <a class="card link grad-a" href="extras/scene.html">
-        <h3><span class="card-ico"><svg viewBox="0 0 64 64"><use href="#fig-3d"/></svg></span>Visor 3D — OÍDO</h3>
-        <p>Abrir: scene.html</p>
-        <div class="chipline"><span class="chip blue">Extra</span><span class="chip green">HTML</span></div>
-      </a>
-      </div>
+        <model-viewer src="assets/models/oido.glb" ios-src="assets/models/oido.usdz" ar ar-modes="webxr scene-viewer quick-look" camera-controls touch-action="pan-y" ar-scale="fixed" shadow-intensity="0.5"></model-viewer>
+      </mv-wrapper>
+      <p class="legend">Android: Scene Viewer/WebXR. iOS: requiere USDZ para Quick Look (puedo convertir tu GLB a USDZ).</p>
     </section>
-    
+
     <footer class="footer">
   <small>Proyecto desarrollado por <strong>Belén Acuña</strong> y <strong>Francisco Pinto</strong>. Uso exclusivamente educativo. <strong>Prohibida</strong> su reproducción, copia o distribución total o parcial sin autorización. © 2025</small>
 </footer>
@@ -163,6 +124,71 @@
     if (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(k)) return block(e);
     if (e.ctrlKey && ['u','s','p'].includes(k)) return block(e);
   }, {capture:true});
+})();
+</script>
+
+
+<script>
+(function(){
+  const mv = document.querySelector('model-viewer');
+  const toolbar = document.getElementById('arToolbar');
+  const help = document.getElementById('arHelp');
+  let scale = 1.0;
+
+  function isWebXR(){
+    // model-viewer sets arStatus="session-started" in WebXR; Scene Viewer / Quick Look do not expose same
+    return mv.ar && (mv.getAttribute('ar-modes') || '').includes('webxr');
+  }
+  function applyScale(val){
+    scale = Math.min(3, Math.max(0.2, val));
+    if (mv.model && mv.model.modelScene) {
+      const s = scale;
+      mv.model.modelScene.scale.set(s, s, s);
+    } else if (mv.model) {
+      // fallback
+      const s = scale;
+      mv.model.scale.set(s, s, s);
+    }
+  }
+  function rotateBy(deltaDeg){
+    if (mv.model) {
+      const y = (mv.model.rotation.y || 0) + (deltaDeg * Math.PI/180);
+      mv.model.rotation.y = y;
+    }
+  }
+  document.getElementById('arRotateL').addEventListener('click', ()=> rotateBy(-10));
+  document.getElementById('arRotateR').addEventListener('click', ()=> rotateBy(10));
+  document.getElementById('arZoomIn').addEventListener('click', ()=> applyScale(scale*1.12));
+  document.getElementById('arZoomOut').addEventListener('click', ()=> applyScale(scale/1.12));
+  document.getElementById('arRecenter').addEventListener('click', ()=> {
+    // Simple recenter: exit & re-enter AR if possible, else reset turntable
+    if (mv.ar && mv.canActivateAR) {
+      try{ mv.exitAR && mv.exitAR(); }catch(e){}
+      setTimeout(()=> { try{ mv.activateAR && mv.activateAR(); }catch(e){} }, 200);
+    } else {
+      mv.resetTurntableRotation && mv.resetTurntableRotation();
+      mv.cameraOrbit = 'auto auto auto';
+    }
+  });
+  document.getElementById('arHelpBtn').addEventListener('click', ()=> help.classList.toggle('show'));
+
+  // Toggle toolbar visibility depending on AR mode
+  mv.addEventListener('ar-status', (ev)=>{
+    const st = ev.detail.status || ev.target.getAttribute('ar-status');
+    // Show toolbar in WebXR and preview; hide when delegating to native apps
+    if (st === 'session-started') {
+      toolbar.style.display = 'flex';
+    } else if (st === 'not-presenting' || st === 'failed') {
+      toolbar.style.display = 'flex';
+    } else {
+      // presenting in native mode
+      toolbar.style.display = 'none';
+      help.classList.remove('show');
+    }
+  });
+
+  // Initialize scale after model loads
+  mv.addEventListener('load', ()=> applyScale(1.0));
 })();
 </script>
 

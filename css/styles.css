@@ -129,3 +129,8 @@ ul.clean li strong { margin-right:4px; }
   .ar-toolbar { bottom: 24px; }
   .ar-help { max-width: 40vw; }
 }
+
+/* v18: placement mode buttons */
+.ar-toolbar .ar-btn.primary { border-color:#2563eb; box-shadow:0 8px 22px rgba(37,99,235,.35); }
+.ar-toolbar .ar-btn.success { border-color:#16a34a; box-shadow:0 8px 22px rgba(22,163,74,.35); }
+    
